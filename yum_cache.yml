@@ -1,0 +1,7 @@
+- hosts: master[0]:cluster[0]:gluster[0]
+  become: yes
+  become_method: sudo
+  tasks:
+    - import_role:
+        role: common
+        tasks_from: yum_cache.yml

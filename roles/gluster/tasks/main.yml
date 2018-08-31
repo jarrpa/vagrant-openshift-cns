@@ -1,0 +1,31 @@
+- name: Open port 111
+  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 111 -j ACCEPT
+
+- name: Open port 3260
+  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 3260 -j ACCEPT
+
+- name: Open port 24007
+  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 24007 -j ACCEPT
+
+- name: Open port 24008
+  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 24008 -j ACCEPT
+
+- name: Open port 24010
+  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 24010 -j ACCEPT
+
+- name: Open ports 49152-49251
+  command: iptables -A INPUT -p tcp -m state --state NEW -m multiport --dports 49152:49251 -j ACCEPT
+
+- name: install centos-release-gluster
+  yum: name={{ item }} state=present
+  with_items:
+  - centos-release-gluster
+
+- name: install glusterfs
+  yum: name={{ item }} state=present
+  with_items:
+  - glusterfs-server
+
+- name: enable glusterfs
+  service: name=glusterd enabled=yes state=restarted
+

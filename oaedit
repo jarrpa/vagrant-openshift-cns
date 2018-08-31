@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vagrant ssh master -c "sudo -s vim /usr/share/ansible/openshift-ansible/$@"

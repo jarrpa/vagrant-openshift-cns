@@ -1,0 +1,71 @@
+[OSEv3:children]
+nodes
+glusterfs
+masters
+
+[OSEv3:vars]
+ansible_ssh_user=root
+openshift_master_default_subdomain=cloudapps.example.com
+openshift_deployment_type=origin
+#deployment_type=openshift-enterprise
+#deployer_image=origin3/ose-deployer
+containerized=true
+openshift_master_identity_providers=[{'name': 'allow_all_auth', 'login': 'true', 'challenge': 'true', 'kind': 'AllowAllPasswordIdentityProvider'}]
+#openshift_image_tag=latest
+#openshift_pkg_version=''
+#openshift_release=v3.7
+##openshift_additional_repos=[{'id': 'openshift-local', 'name': 'openshift-local', 'baseurl': 'file:///vagrant/repo', 'enabled': 1, 'gpgcheck': 0}]
+#openshift_additional_repos=[{'id': 'origin36', 'name': 'origin36', 'baseurl': 'https://buildlogs.centos.org/centos/7/paas/x86_64/openshift-origin36/', 'enabled': 1, 'gpgcheck': 0},{'id': 'aos36', 'name': 'aos36', 'baseurl': 'http://download-node-02.eng.bos.redhat.com/rcm-guest/puddles/RHAOS/AtomicOpenShift/3.6/latest/x86_64/os/', 'enabled': 1, 'gpgcheck': 0}]
+openshift_disable_check=disk_availability,memory_availability,docker_storage,docker_image_availability
+openshift_clock_enabled=False
+openshift_enable_excluders=false
+openshift_use_manageiq=false
+openshift_install_examples=false
+openshift_service_catalog_remove=true
+ansible_service_broker_install=false
+template_service_broker_install=false
+openshift_web_console_install=false
+#osm_default_node_selector='region=compute'
+
+#openshift_hosted_registry_storage_kind=glusterfs
+#openshift_storage_glusterfs_wipe=True
+#openshift_storage_glusterfs_image=rhgs3/rhgs-server-rhel7
+#openshift_storage_glusterfs_version=rhgs-3.3-rhel-7-docker-candidate-40054-20170921200009
+#openshift_storage_glusterfs_heketi_image=rhgs3/rhgs-volmanager-rhel7
+openshift_storage_glusterfs_wipe=True
+openshift_storage_glusterfs_is_native=False
+openshift_storage_glusterfs_heketi_admin_key="My Secret"
+openshift_storage_glusterfs_heketi_user_key="My Secret"
+openshift_storage_glusterfs_heketi_is_native=True
+openshift_storage_glusterfs_heketi_executor=ssh
+openshift_storage_glusterfs_heketi_ssh_user=vagrant
+openshift_storage_glusterfs_heketi_ssh_sudo=True
+openshift_storage_glusterfs_heketi_ssh_keyfile=/home/vagrant/.ssh/id_rsa
+
+#openshift_metrics_install_metrics=false    
+#openshift_metrics_storage_kind=dynamic                         
+
+#openshift_logging_install_logging=false                        
+#openshift_logging_es_pvc_size=5Gi  
+#openshift_logging_storage_kind=dynamic
+
+[etcd]
+master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90
+
+#[nfs]
+#master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90 storage=True master=True
+
+[nodes]
+master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90 openshift_node_group_name="node-config-master"
+node0  openshift_public_ip=192.168.10.100 openshift_ip=192.168.10.100 openshift_public_hostname=node0 openshift_hostname=node0 node=True connect_to=192.168.10.100 openshift_node_group_name="node-config-infra"
+
+[glusterfs]
+node1 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.101
+node2 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.102
+node3 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.103
+#node0 glusterfs_devices='[ "/dev/vdd" ]'
+#node1 glusterfs_devices='[ "/dev/vdd" ]'
+#node2 glusterfs_devices='[ "/dev/vdd" ]'
+
+[masters]
+master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90

@@ -1,0 +1,4 @@
+repo/*
+*.retry
+.vagrant
+ssh-config

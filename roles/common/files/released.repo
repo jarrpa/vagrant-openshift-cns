@@ -1,0 +1,107 @@
+[rhel-7-server-rpms]
+name = Red Hat Enterprise Linux 7
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/os/
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-rpms-debug]
+name = Red Hat Enterprise Linux 7 Debug
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/debug/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-extras-rpms]
+name = Red Hat Enterprise Linux 7 Extras
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/extras/os/
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-fast-datapath-rpms]
+name = Red Hat Enterprise Linux 7 Fast Datapath
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/fast-datapath/os/
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-optional-rpms]
+name = Red Hat Enterprise Linux 7 Optional
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/optional/os/
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-rh-gluster-samba-rpms]
+name = Red Hat Enterprise Linux 7 Gluster Samba
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rh-gluster-samba/3.1/os/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rh-gluster-samba-debug]
+name = Red Hat Enterprise Linux 7 Gluster Samba Debug
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rh-gluster-samba/3.1/debug/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rhgs-nagios-rpms]
+name = Red Hat Enterprise Linux 7 RHGS nagios
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhgs-nagios/3.1/os/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-gluster-nfs-rpms]
+name = Red Hat Enterprise Linux 7 Gluster NFS
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhgs-server-nfs/3.1/os/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-gluster-nfs-rpms-debug]
+name = Red Hat Enterprise Linux 7 Gluster NFS Debug
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhgs-server-nfs/3.1/debug/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rhgs-server-rpms]
+name = Red Hat Enterprise Linux 7 RHGS server
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhgs-server/3.1/os/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rhgs-server-rpms-debug]
+name = Red Hat Enterprise Linux 7 RHGS server Debug
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhgs-server/3.1/debug/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rhs-client-rpms]
+name = Red Hat Enterprise Linux 7 RHS client
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhs-client/os/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-rhs-client-rpms-debug]
+name = Red Hat Enterprise Linux 7 RHS client debug
+baseurl = http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/rhs-client/debug/
+enabled = 0
+gpgcheck = 0
+
+[rhel-7-server-ose-3.4-rpms]
+name=rhel-7-server-ose-3.4-rpms
+baseurl=http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/ose/3.4/os/
+gpgcheck=0
+enabled=0
+
+[rhel-7-server-ose-3.5-rpms]
+name=rhel-7-server-ose-3.5-rpms
+baseurl=http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/ose/3.5/os/
+gpgcheck=0
+enabled=0
+
+[rhel-7-server-ose-3.6-rpms]
+name=rhel-7-server-ose-3.6-rpms
+baseurl=http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/ose/3.6/os/
+gpgcheck=0
+enabled=0
+
+[rhel-7-server-ose-3.7-rpms]
+name=rhel-7-server-ose-3.7-rpms
+baseurl=http://pulp.dist.prod.ext.phx2.redhat.com/content/dist/rhel/server/7/7Server/x86_64/ose/3.7/os/
+gpgcheck=0
+enabled=1

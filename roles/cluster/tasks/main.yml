@@ -1,0 +1,16 @@
+#- name: Setup default DNS server
+#  shell: echo "IP4_NAMESERVERS=192.168.10.90" > /etc/sysconfig/network
+
+- name: Configure local repo
+  yum_repository:
+    name: openshift-local
+    description: openshift-local
+    baseurl: file:///vagrant/repo
+    gpgcheck: no
+
+- name: install docker
+  yum: name={{ item }} state=present
+  with_items:
+    - docker
+
+- service: name=docker enabled=yes state=restarted

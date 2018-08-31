@@ -1,0 +1,88 @@
+- name: build hosts file
+  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_eth1.ipv4.address }} {{item}}" state=present
+  when: hostvars[item].ansible_eth1.ipv4.address is defined
+  with_items: "{{ groups['all'] }}" 
+
+- name: Does cache exist?
+  local_action: stat path="{{ vagrant_home }}/cache/{{ ansible_distribution }}/{{ ansible_distribution_version }}/yum-*.tgz"
+  become: false
+  register: cache_exists
+
+- name: Keep yum cache
+  shell: yum-config-manager --setopt 'keepcache=1' --save > /dev/null
+  when:
+  - vagrant_cache
+
+- name: Copy cache from host
+  unarchive:
+    src: "{{ vagrant_home }}/cache/{{ ansible_distribution }}/{{ ansible_distribution_version }}/yum-*.tgz"
+    dest: "/var/cache/"
+  when:
+  - cache_exists.stat.exists == True
+  - vagrant_cache
+
+- name: copy RHEL released repos
+  copy: src=released.repo dest=/etc/yum.repos.d/released.repo
+  when: rhel | bool
+
+- name: yum update
+  command: yum -y update
+
+- name: install packages
+  yum: name={{ item }} state=present
+  with_items:
+    - https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    - wget 
+    - git 
+    - net-tools 
+    - bind-utils 
+    - iptables-services 
+    - bridge-utils 
+    - bash-completion
+    - dnsmasq
+    - ncurses-term
+    - yum-utils
+    - vim
+    - screen
+    - python-yaml
+    - ntp
+
+- name: copy docker conf
+  template: src=docker.j2 dest=/etc/sysconfig/docker force=yes mode=0644
+  when: custom_registry is defined
+
+- name: synchronize time
+  command: ntpdate time.nist.gov
+
+- name: make root ssh dir
+  file: path=/root/.ssh state=directory mode=0600
+
+- name: copy private key vagrant user
+  copy: src=insecure_private_key owner=vagrant group=vagrant dest=/home/vagrant/.ssh/id_rsa force=no mode=0600
+
+- name: copy private key root user
+  copy: src=insecure_private_key owner=root group=root dest=/root/.ssh/id_rsa force=no mode=0600
+
+- name: add authorized keys to root
+  copy: src=authorized_keys owner=root group=root dest=/root/.ssh/authorized_keys force=no mode=0600
+
+- name: Loosen SSH host key checking
+  shell: echo -e '\tStrictHostKeyChecking no' >> /etc/ssh/ssh_config
+
+- name: enable selinux
+  selinux: policy=targeted state=enforcing
+
+- name: fix issue with eth1
+  lineinfile: dest=/etc/sysconfig/network-scripts/ifcfg-eth1 regexp="^NM_CONTROLLED=" line="NM_CONTROLLED=yes"
+
+- name: copy dnsmasq config
+  copy: src=cloudapps.conf dest=/etc/dnsmasq.d/ force=yes mode=0644
+
+- name: copy dnsmasq dbus config
+  copy: src=dnsmasq.conf dest=/etc/dbus-1/system.d/ force=yes mode=0644
+
+- name: restart dbus
+  service: name=dbus state=restarted
+
+- name: restart systemd-logind (SSH hack)
+  service: name=systemd-logind state=restarted

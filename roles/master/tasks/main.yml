@@ -1,0 +1,20 @@
+#- name: Add CentOS PaaS SIG repository
+#  yum_repository:
+#    name: paas-openshift-origin
+#    description: PaaS openshift-origin repo
+#    baseurl: http://mirror.centos.org/centos/7/paas/x86_64/openshift-origin/
+#    gpgkey: https://raw.githubusercontent.com/openshift/openshift-ansible/master/roles/openshift_repos/files/origin/gpg_keys/openshift-ansible-CentOS-SIG-PaaS
+#    gpgcheck: yes
+
+- name: Install fixed ansible and createrepo
+  yum: name={{ item }} state=present
+  with_items:
+#    - ansible-2.2.1.0-2.el7
+    - createrepo
+    - tito
+
+    #- name: Open port 2379
+    #  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 2379 -j ACCEPT
+
+    #- name: Open port 8443
+    #  command: iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8443 -j ACCEPT
