@@ -1,25 +1,51 @@
 - name: build hosts file
-  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_eth1.ipv4.address }} {{item}}" state=present
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_eth1.ipv4.address }} {{item}}"
+    state: present
   when: hostvars[item].ansible_eth1.ipv4.address is defined
   with_items: "{{ groups['all'] }}" 
 
-- name: Does cache exist?
-  local_action: stat path="{{ vagrant_home }}/cache/{{ ansible_distribution }}/{{ ansible_distribution_version }}/yum-*.tgz"
-  become: false
-  register: cache_exists
+- block:
+  - name: Keep yum cache
+    shell: yum-config-manager --setopt 'keepcache=1' --save > /dev/null
 
-- name: Keep yum cache
-  shell: yum-config-manager --setopt 'keepcache=1' --save > /dev/null
-  when:
-  - vagrant_cache
+  - set_fact:
+      yum_cache_dir: "{{ yum_cache_dir }}"
 
-- name: Copy cache from host
-  unarchive:
-    src: "{{ vagrant_home }}/cache/{{ ansible_distribution }}/{{ ansible_distribution_version }}/yum-*.tgz"
-    dest: "/var/cache/"
-  when:
-  - cache_exists.stat.exists == True
-  - vagrant_cache
+  - name: Collect cache dirs
+    set_fact:
+      cache_dirs: "{{ ansible_play_hosts | map('extract', hostvars) | map(attribute='yum_cache_dir') | list }}"
+    run_once: true
+    delegate_to: localhost
+    become: false
+
+  - name: Make sure cache directories exists
+    file:
+      path: "{{ item }}"
+      state: directory
+    with_items: "{{ cache_dirs | unique }}"
+    run_once: true
+    delegate_to: localhost
+    become: false
+
+  - name: Does cache exist?
+    stat:
+      path: "{{ item }}/yum.tar.gz"
+    with_items: "{{ cache_dirs | unique }}"
+    run_once: true
+    delegate_to: localhost
+    become: false
+    register: cache_exists
+
+  - name: Copy cache from localhost
+    unarchive:
+      src: "{{ yum_cache_dir }}/yum.tar.gz"
+      dest: "/var/cache/"
+    when:
+    -  cache_exists.results | selectattr('item', 'equalto', yum_cache_dir) | map(attribute='stat') | map(attribute='exists') | first | bool
+  when: vagrant_cache
 
 - name: copy RHEL released repos
   copy: src=released.repo dest=/etc/yum.repos.d/released.repo

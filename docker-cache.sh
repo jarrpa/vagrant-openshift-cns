@@ -4,7 +4,7 @@ NODES="${@:-master node0}"
 
 for node in ${NODES}; do
   echo -n "Getting images from ${node} ... "
-  IMAGES=$(vagrant ssh node0 -c "sudo -s -- docker images --format \"{{.Repository}} {{.Tag}}\"" -- -q | tr "[:cntrl:]" "\n")
+  IMAGES=$(vagrant ssh $node -c "sudo -s -- docker images --format \"{{.Repository}} {{.Tag}}\"" -- -q | tr "[:cntrl:]" "\n")
   PUSHES=""
   echo "OK"
 
@@ -26,7 +26,7 @@ for node in ${NODES}; do
     echo "  ${push}"
   done
 
-  vagrant ssh node0 -c "for push in ${PUSHES}; do sudo docker tag \$push 192.168.121.1:5000/\$push; sudo docker push 192.168.121.1:5000/\$push; done" -- -qn
+  vagrant ssh $node -c "for push in ${PUSHES}; do sudo docker tag \$push 192.168.121.1:5000/\$push; sudo docker push 192.168.121.1:5000/\$push; done" -- -qn
 
   echo "Done"
 done

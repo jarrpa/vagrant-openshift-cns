@@ -1,8 +1,6 @@
 #!/bin/bash
 
-export MINIONS=${MINIONS:-4}
-export CRS=1
-export INVENTORY="/vagrant/ansible-inventory-crs"
+export INVENTORY="/vagrant/ansible-inventory-reg"
 
 for cmd in "$@"; do
   script=$(cut -d ' ' -f 1 -s <<< "${cmd}")

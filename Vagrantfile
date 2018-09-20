@@ -10,10 +10,11 @@
 #
 
 MINIONS = ENV['MINIONS'] ? ENV['MINIONS'].to_i : 3
-CRS = ENV['CRS'] ? ENV['CRS'].to_i : 0
-DISKS = 3
-CACHE = true
-RHEL = false
+CRS = ENV['CRS'] ? true : false
+DISKS = ENV['DISKS'] ? ENV['DISKS'].to_i : 3
+CACHE = ENV['VAGRANT_CACHE'] ? true : false
+HOME = ENV['VAGRANT_HOME'] ? ENV['VAGRANT_HOME'] : "~/.vagrant.d"
+RHEL = ENV['RHEL'] ? true : false
 
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
@@ -40,10 +41,11 @@ Vagrant.configure("2") do |config|
             lv.sound_type = "ich6"
         end
 
-        minions = (0..MINIONS-1).map {|j| "node#{j}"}
+        minions = MINIONS > 0 ? (0..MINIONS-1).map {|j| "node#{j}"} : []
         masters = ["master"]
         cluster = CRS ? [minions[0]] : minions
         cluster[cluster.length] = "master"
+        cluster = ["master"]
         gluster = CRS ? minions[1..-1] : []
         master.vm.provision :ansible do |ansible|
             ansible.limit = "all"
@@ -54,11 +56,10 @@ Vagrant.configure("2") do |config|
                 "gluster" => gluster,
             }
             ansible.extra_vars = {
-                "vagrant_home"  => ENV['VAGRANT_HOME'] ? ENV['VAGRANT_HOME'] : "~/.vagrant.d",
-                "vagrant_cache" => ENV['VAGRANT_CACHE'] ? ENV['VAGRANT_CACHE'] : CACHE,
-		"custom_registry" => "192.168.121.1:5000",
-                "external_glusterfs" => CRS ? "true" : "false",
-                "rhel" => RHEL
+                "vagrant_home"  => HOME,
+                "vagrant_cache" => CACHE,
+                "external_glusterfs" => CRS.to_s,
+                "rhel" => RHEL.to_s
             }
 
         end

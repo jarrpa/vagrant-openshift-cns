@@ -12,7 +12,7 @@ openshift_deployment_type=origin
 containerized=true
 openshift_master_identity_providers=[{'name': 'allow_all_auth', 'login': 'true', 'challenge': 'true', 'kind': 'AllowAllPasswordIdentityProvider'}]
 #openshift_image_tag=latest
-#openshift_pkg_version=''
+openshift_pkg_version=''
 #openshift_release=v3.7
 ##openshift_additional_repos=[{'id': 'openshift-local', 'name': 'openshift-local', 'baseurl': 'file:///vagrant/repo', 'enabled': 1, 'gpgcheck': 0}]
 #openshift_additional_repos=[{'id': 'origin36', 'name': 'origin36', 'baseurl': 'https://buildlogs.centos.org/centos/7/paas/x86_64/openshift-origin36/', 'enabled': 1, 'gpgcheck': 0},{'id': 'aos36', 'name': 'aos36', 'baseurl': 'http://download-node-02.eng.bos.redhat.com/rcm-guest/puddles/RHAOS/AtomicOpenShift/3.6/latest/x86_64/os/', 'enabled': 1, 'gpgcheck': 0}]
@@ -26,20 +26,21 @@ ansible_service_broker_install=false
 template_service_broker_install=false
 openshift_web_console_install=false
 #osm_default_node_selector='region=compute'
+openshift_cluster_monitoring_operator_install=false
 
 #openshift_hosted_registry_storage_kind=glusterfs
 #openshift_storage_glusterfs_wipe=True
 #openshift_storage_glusterfs_image=rhgs3/rhgs-server-rhel7
 #openshift_storage_glusterfs_version=rhgs-3.3-rhel-7-docker-candidate-40054-20170921200009
 #openshift_storage_glusterfs_heketi_image=rhgs3/rhgs-volmanager-rhel7
-openshift_storage_glusterfs_is_native=False
+#openshift_storage_glusterfs_is_native=False
 openshift_storage_glusterfs_heketi_admin_key="My Secret"
-openshift_storage_glusterfs_heketi_user_key="My Secret"
-openshift_storage_glusterfs_heketi_is_native=True
-openshift_storage_glusterfs_heketi_executor=ssh
-openshift_storage_glusterfs_heketi_ssh_user=vagrant
-openshift_storage_glusterfs_heketi_ssh_sudo=True
-openshift_storage_glusterfs_heketi_ssh_keyfile=/home/vagrant/.ssh/id_rsa
+#openshift_storage_glusterfs_heketi_user_key="My Secret"
+#openshift_storage_glusterfs_heketi_is_native=True
+#openshift_storage_glusterfs_heketi_executor=ssh
+#openshift_storage_glusterfs_heketi_ssh_user=vagrant
+#openshift_storage_glusterfs_heketi_ssh_sudo=True
+#openshift_storage_glusterfs_heketi_ssh_keyfile=/home/vagrant/.ssh/id_rsa
 
 #openshift_metrics_install_metrics=false    
 #openshift_metrics_storage_kind=dynamic                         

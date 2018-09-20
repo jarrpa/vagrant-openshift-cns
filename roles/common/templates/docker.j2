@@ -1,8 +1,9 @@
-OPTIONS=' --selinux-enabled  --log-driver=journald'
+OPTIONS=' --selinux-enabled --log-driver=journald --signature-verification=false'
 if [ -z "${DOCKER_CERT_PATH}" ]; then
     DOCKER_CERT_PATH=/etc/docker
 fi
 
-ADD_REGISTRY='--add-registry {{ custom_registry }} --add-registry brew-pulp-docker01.web.prod.ext.phx2.redhat.com:8888'
+{% if add_custom_registry %}
+ADD_REGISTRY='--add-registry {{ custom_registry }} --add-registry docker.io --add-registry brew-pulp-docker01.web.prod.ext.phx2.redhat.com:8888'
 INSECURE_REGISTRY='--insecure-registry {{ custom_registry }} --insecure-registry brew-pulp-docker01.web.prod.ext.phx2.redhat.com:8888'
-
+{% endif %}

@@ -6,14 +6,14 @@ export ANSIBLE_TIMEOUT=60
 export MINIONS=0
 export ORIGIN_BUILD=1
 
-vagrant up --no-provision $@ \
+vagrant up --no-provision \
     && vagrant provision
 
 if [ $? -eq 0 ]; then
   vagrant ssh-config > ssh-config
   rm -f origin.tgz
   pushd /home/jrivera/projects/github/openshift/origin
-  git checkout master
+  git checkout ${1:-master}
   git pull
   popd
   tar -czf origin.tgz -C /home/jrivera/projects/github/openshift origin

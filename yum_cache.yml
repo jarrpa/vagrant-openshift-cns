@@ -1,7 +1,22 @@
+---
 - hosts: master[0]:cluster[0]:gluster[0]
   become: yes
   become_method: sudo
+  vars_files:
+    - "global_vars.yml"
   tasks:
     - import_role:
         role: common
         tasks_from: yum_cache.yml
+
+    - block:
+      - name: Collect cache dirs
+        set_fact:
+          cache_dirs: "{{ ansible_play_hosts | map('extract', hostvars) | map(attribute='yum_cache_dir') | list }}"
+
+      - name: Concatenate yum caches
+        shell: "cd {{ item }}; gzip -d yum*; tar --concatenate -f yum.tar yum-*; gzip yum.tar; rm -f yum-*"
+        with_items: "{{ cache_dirs | unique }}"
+      run_once: true
+      delegate_to: localhost
+      become: false

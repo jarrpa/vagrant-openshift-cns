@@ -1,6 +1,5 @@
 [OSEv3:children]
 nodes
-glusterfs
 masters
 
 [OSEv3:vars]
@@ -59,11 +58,6 @@ master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_p
 [nodes]
 master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90 openshift_node_group_name="node-config-master"
 node0  openshift_public_ip=192.168.10.100 openshift_ip=192.168.10.100 openshift_public_hostname=node0 openshift_hostname=node0 node=True connect_to=192.168.10.100 openshift_node_group_name="node-config-infra"
-
-[glusterfs]
-node1 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.101
-node2 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.102
-node3 glusterfs_devices='[ "/dev/vdb", "/dev/vdc", "/dev/vdd" ]' glusterfs_ip=192.168.10.103
 
 [masters]
 master  openshift_public_ip=192.168.10.90 openshift_ip=192.168.10.90 openshift_public_hostname=master openshift_hostname=master node=True connect_to=192.168.10.90

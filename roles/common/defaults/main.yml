@@ -1,0 +1,2 @@
+distro: "{{ ansible_distribution }}/{{ ansible_distribution_version }}"
+yum_cache_dir: "{{ vagrant_home }}/cache/{{ distro }}"
