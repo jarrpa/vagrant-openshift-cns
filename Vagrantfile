@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
             lv.cpus = 2
             lv.storage_pool_name = STORAGE_POOL_NAME
             lv.storage :file, :device => "vdb", :path => "master-docker.disk", :size => '500G'
-            lv.sound_type = "ich6"
+            #lv.sound_type = "ich6"
         end
 
         minions = MINIONS > 0 ? (0..MINIONS-1).map {|j| "node#{j}"} : []
