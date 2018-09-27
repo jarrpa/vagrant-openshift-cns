@@ -15,6 +15,7 @@ DISKS = ENV['DISKS'] ? ENV['DISKS'].to_i : 3
 CACHE = ENV['VAGRANT_CACHE'] ? true : false
 HOME = ENV['VAGRANT_HOME'] ? ENV['VAGRANT_HOME'] : "~/.vagrant.d"
 RHEL = ENV['RHEL'] ? true : false
+STORAGE_POOL_NAME = ENV['STORAGE_POOL_NAME'] ? ENV['STORAGE_POOL_NAME'] : "default"
 
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
@@ -36,7 +37,7 @@ Vagrant.configure("2") do |config|
         master.vm.provider :libvirt do |lv|
             lv.memory = ENV['ORIGIN_BUILD'] ? 6144 : 4096
             lv.cpus = 2
-            lv.storage_pool_name = "MINE"
+            lv.storage_pool_name = STORAGE_POOL_NAME
             lv.storage :file, :device => "vdb", :path => "master-docker.disk", :size => '500G'
             lv.sound_type = "ich6"
         end
@@ -74,7 +75,7 @@ Vagrant.configure("2") do |config|
             node.vm.provider :libvirt do |lv|
                 lv.memory = CRS && (i > 0) ? 1024 : 2048
                 lv.cpus = 2
-                lv.storage_pool_name = "MINE"
+                lv.storage_pool_name = STORAGE_POOL_NAME
             end
 
             driverletters = ('b'..'z').to_a
