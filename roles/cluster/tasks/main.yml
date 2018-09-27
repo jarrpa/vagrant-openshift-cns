@@ -7,6 +7,7 @@
     description: openshift-local
     baseurl: file:///vagrant/repo
     gpgcheck: no
+    enabled: no
 
 - name: install docker
   yum: name={{ item }} state=present
